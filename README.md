@@ -2,6 +2,8 @@
 
 This website is built by following the instruction of Traversy Media tutorial in the purpose of learning website development.
 
+![](./preview.png)
+
 ## What to Learn
 
 - Basic concepts and steps to build a Reactjs website.
