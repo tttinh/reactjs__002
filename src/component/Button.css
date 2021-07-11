@@ -1,12 +1,8 @@
 .tt-button {
-    font-size: 14px;
-    border: none;
-    padding: 8px 10px;
-    min-width: 100px;
-    color: white;
-}
-
-.tt-button:hover {
-  color: lightgrey;
-  transition: all 0.3s ease-out;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  padding: 8px 10px;
+  min-width: 100px;
+  color: white;
 }

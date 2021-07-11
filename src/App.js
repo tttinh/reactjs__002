@@ -2,6 +2,7 @@ import './App.css';
 import Header from './component/Header';
 import Task from './component/Task';
 import { useState } from 'react';
+import NewTask from './component/NewTask';
 
 const defaultTasks = [
   {
@@ -33,7 +34,7 @@ function App() {
   const [tasks, setTasks] = useState(defaultTasks);
   const [showNewTask, setShowNewTask] = useState(false);
 
-  function onToggleReminder(id) {
+  const onToggleReminder = (id) => {
     setTasks(
       tasks.map((task) =>
         task.id === id ? { ...task, reminder: !task.reminder } : task
@@ -41,13 +42,14 @@ function App() {
     );
   }
 
-  function onDelete(id) {
+  const onDelete = (id) => {
     setTasks(tasks.filter((task) => task.id !== id));
   }
 
   return (
     <div className='container'>
       <Header showNewTask={showNewTask} onClick={() => setShowNewTask(!showNewTask)}/>
+      {showNewTask && <NewTask/>}
       {tasks.length > 0
         ? tasks.map((task, index) => (
             <Task
