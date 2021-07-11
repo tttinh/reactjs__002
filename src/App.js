@@ -1,29 +1,77 @@
 import './App.css';
 import Header from './component/Header';
 import Task from './component/Task';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import NewTask from './component/NewTask';
 
 function App() {
-  let taskCount = 0;
   const [tasks, setTasks] = useState([]);
   const [showNewTask, setShowNewTask] = useState(false);
 
-  const switchTaskReminder = (id) => {
+  useEffect(() => {
+    const getTasks = async () => {
+      const data = await fetchTasks();
+      setTasks(data);
+    };
+
+    getTasks();
+  }, []);
+
+  const fetchTask = async (id) => {
+    const res = await fetch(`http://localhost:5000/tasks/${id}`);
+    const data = await res.json();
+    return data;
+  };
+
+  const fetchTasks = async () => {
+    const res = await fetch('http://localhost:5000/tasks');
+    const data = await res.json();
+    return data;
+  };
+
+  const updateTaskReminder = async (id) => {
+    const task = await fetchTask(id);
+    const updatingTask = { ...task, reminder: !task.reminder };
+
+    const res = await fetch(`http://localhost:5000/tasks/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatingTask),
+    });
+
+    const data = await res.json();
+
     setTasks(
       tasks.map((task) =>
-        task.id === id ? { ...task, reminder: !task.reminder } : task
+        task.id === id ? { ...task, reminder: data.reminder } : task
       )
     );
   };
 
-  const deleteTask = (id) => {
-    setTasks(tasks.filter((task) => task.id !== id));
+  const deleteTask = async (id) => {
+    const res = await fetch(`http://localhost:5000/tasks/${id}`, {
+      method: 'DELETE',
+    })
+    //We should control the response status to decide if we will change the state or not.
+    res.status === 200
+      ? setTasks(tasks.filter((task) => task.id !== id))
+      : alert('Error Deleting This Task')
   };
 
-  const saveTask = (task) => {
-    taskCount++;
-    setTasks([...tasks, {id: taskCount, ...task}])
+  const saveTask = async (task) => {
+    const res = await fetch(`http://localhost:5000/tasks`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(task),
+    });
+
+    const data = await res.json();
+    console.log(data)
+    setTasks([...tasks, data]);
   };
 
   return (
@@ -34,11 +82,11 @@ function App() {
       />
       {showNewTask && <NewTask saveTask={saveTask} />}
       {tasks.length > 0
-        ? tasks.map((task, index) => (
+        ? tasks.map((task) => (
             <Task
-              key={index}
+              key={task.id}
               data={task}
-              onToggleReminder={switchTaskReminder}
+              onToggleReminder={updateTaskReminder}
               onDelete={deleteTask}
             />
           ))
