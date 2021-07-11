@@ -4,32 +4,6 @@ import Task from './component/Task';
 import { useState } from 'react';
 import NewTask from './component/NewTask';
 
-const defaultTasks = [
-  {
-    id: 1,
-    title: 'Learn React Crash Course.',
-    date: 'Jul 11st at 2:30pm',
-    reminder: true,
-  },
-  {
-    id: 2,
-    title: 'Cleanup the Room.',
-    date: 'Jul 11st at 4:30pm',
-    reminder: false,
-  },
-  {
-    id: 3,
-    title: 'Do Some Exercises.',
-    date: 'Jul 11st at 5:30pm',
-    reminder: true,
-  },
-  {
-    id: 4,
-    title: 'Prepare for Dinner.',
-    date: 'Jul 11st at 6:30pm',
-    reminder: false,
-  },
-];
 function App() {
   let taskCount = 0;
   const [tasks, setTasks] = useState([]);
