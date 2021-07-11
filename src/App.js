@@ -3,6 +3,9 @@ import Header from './component/Header';
 import Task from './component/Task';
 import { useState, useEffect } from 'react';
 import NewTask from './component/NewTask';
+import Footer from './component/Footer';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import About from './component/About';
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -53,11 +56,11 @@ function App() {
   const deleteTask = async (id) => {
     const res = await fetch(`http://localhost:5000/tasks/${id}`, {
       method: 'DELETE',
-    })
+    });
     //We should control the response status to decide if we will change the state or not.
     res.status === 200
       ? setTasks(tasks.filter((task) => task.id !== id))
-      : alert('Error Deleting This Task')
+      : alert('Error Deleting This Task');
   };
 
   const saveTask = async (task) => {
@@ -70,27 +73,39 @@ function App() {
     });
 
     const data = await res.json();
-    console.log(data)
+    console.log(data);
     setTasks([...tasks, data]);
   };
 
   return (
     <div className='container'>
-      <Header
-        showNewTask={showNewTask}
-        onClick={() => setShowNewTask(!showNewTask)}
-      />
-      {showNewTask && <NewTask saveTask={saveTask} />}
-      {tasks.length > 0
-        ? tasks.map((task) => (
-            <Task
-              key={task.id}
-              data={task}
-              onToggleReminder={updateTaskReminder}
-              onDelete={deleteTask}
-            />
-          ))
-        : 'You have no task!'}
+      <Router>
+        <Header
+          showNewTask={showNewTask}
+          onClick={() => setShowNewTask(!showNewTask)}
+        />
+        <Route
+          path='/'
+          exact
+          render={() => (
+            <>
+              {showNewTask && <NewTask saveTask={saveTask} />}
+              {tasks.length > 0
+                ? tasks.map((task) => (
+                    <Task
+                      key={task.id}
+                      data={task}
+                      onToggleReminder={updateTaskReminder}
+                      onDelete={deleteTask}
+                    />
+                  ))
+                : 'You have no task!'}
+              <Footer />
+            </>
+          )}
+        />
+        <Route path='/about' component={About} />
+      </Router>
     </div>
   );
 }
