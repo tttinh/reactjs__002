@@ -1,0 +1,15 @@
+.task-wrapper {
+    background-color: lightgray;
+    padding: 5px 20px;
+    margin-bottom: 10px;
+}
+
+.task-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.toggle-reminder {
+    border-left: 5px solid green;
+}

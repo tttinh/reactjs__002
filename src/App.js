@@ -1,9 +1,14 @@
 import './App.css';
+import Header from './component/Header';
+import Task from './component/Task';
 
 function App() {
   return (
-    <div className="App">
-      <h1>Hello</h1>
+    <div className='container'>
+      <Header />
+      <Task/>
+      <Task/>
+      <Task/>
     </div>
   );
 }
