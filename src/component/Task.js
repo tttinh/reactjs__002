@@ -1,14 +1,14 @@
 import { FaTimes } from 'react-icons/fa';
-import './Task.css'
+import './Task.css';
 
-const Task = () => {
+const Task = ({ data, onToggleReminder, onDelete }) => {
   return (
-    <div className='task-wrapper toggle-reminder'>
+    <div className={`task-wrapper ${data.reminder && 'toggle-reminder'}`} onDoubleClick={() => onToggleReminder(data.id)}>
       <div className='task-title'>
-        <h3>Meeting at School</h3>
-        <FaTimes color='red' cursor='pointer'></FaTimes>
+        <h3>{data.title}</h3>
+        <FaTimes color='red' cursor='pointer' onClick={() => onDelete(data.id)}></FaTimes>
       </div>
-      <h4>Feb 6th at 1:30pm</h4>
+      <h4>{data.date}</h4>
     </div>
   );
 };

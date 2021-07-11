@@ -1,11 +1,15 @@
 import Button from './Button';
 import './Header.css';
 
-const Header = ({onClick}) => {
+const Header = ({ showNewTask, onClick }) => {
   return (
     <header className='tt-header'>
       <h1>Task Tracker</h1>
-      <Button text='Add' bkgColor='green' onClick={onClick}/>
+      <Button
+        text={showNewTask ? 'Close' : 'New'}
+        bkgColor={showNewTask ? 'red' : 'green'}
+        onClick={onClick}
+      />
     </header>
   );
 };
